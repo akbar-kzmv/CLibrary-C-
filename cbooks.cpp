@@ -40,9 +40,13 @@ public:
 
 class User {
 private:
-    string name;
+    string username;
+    string password;
     vector<Book*> borrowed;
 public:
+    User(string username, string password)
+        : username(username), password(password) {}
+
     void borrowB(Book& b) {
         borrowed.push_back(&b);
     }
@@ -55,6 +59,9 @@ public:
             cout << endl;
         }
     }
+    string getName() const{
+        return username;
+    }
 };
 
 class Library {
@@ -66,8 +73,14 @@ public:
         books.push_back(b);
     }
 
-    void addUser(const User& usr) {
+    bool addUser(const User& usr) {
+        if (usrExists(usr.getName()) == true) {
+            cout << "User already exists! Please login!\n";
+            return false;
+        }
         users.push_back(usr);
+        cout << "User successfully added!\n";
+        return true;
     }
 
     Book* findBook(const string& title) {
@@ -94,10 +107,35 @@ public:
             }
         }
     }
+
+    bool usrExists(const string& username) {
+        for (auto& u: users) {
+            if (u.getName() == username) {
+                return true;
+            }
+        }
+        return false;
+    }
 };
 
 int main() {
+    int menu;
+    cout << "Hello! Welcome to our CLibrary. Choose your next action\n1 - Register\n2 - Login\n";
+    cin >> menu;
+    if (menu == 1) {
+        Library lib;
+        User usr("", "");
+        string username, password;
+        cout << "Create an account" << endl;
+        cout << "Enter your username:";
+        cin >> username;
+        cout << "Set a password:";
+        cin >> password;
+        usr = User(username, password);
+        lib.addUser(usr);
+    } else if (menu == 2) {
 
+    }
 }
 
 

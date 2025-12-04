@@ -62,6 +62,10 @@ public:
     string getName() const{
         return username;
     }
+
+    string getPass() const {
+        return password;
+    }
 };
 
 class Library {
@@ -116,36 +120,74 @@ public:
         }
         return false;
     }
+
+    bool findUser(const string& username) {
+        for (auto& u: users) {
+            if (u.getName() == username) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool checkPass(const string& password) {
+        for (auto& u: users) {
+            if (u.getPass() == password) {
+                return true;
+            }
+        }
+        return false;
+    }
 };
 
 int main() {
     int menu;
+    bool oncer = false, oncel = false, forv = true;
+    Library lib;
     cout << "Hello! Welcome to our CLibrary. Choose your next action\n1 - Register\n2 - Login\n";
     cin >> menu;
-    if (menu == 1) {
-        Library lib;
-        User usr("", "");
-        string username, password;
-        cout << "Create an account" << endl;
-        cout << "Enter your username:";
-        cin >> username;
-        cout << "Set a password:";
-        cin >> password;
-        usr = User(username, password);
-        lib.addUser(usr);
-    } else if (menu == 2) {
+    while (forv) {
+        if (oncer == true) {
+            cout << "1 - Register\n2 - Login" << endl;
+            cin >> menu;
+        }
+        if (menu == 1) {
+            User usr("", "");
+            string username, password;
+            cout << "Create an account" << endl;
+            cout << "Enter your username:";
+            cin >> username;
+            cout << "Set a password:";
+            cin >> password;
+            usr = User(username, password);
+            lib.addUser(usr);
+            oncer = true;
+        } else if (menu == 2) {
+            if (oncel == true) {
+                cout << "1 - Register\n2 - Login" << endl;
+                cin >> menu;
+            }
+            User usr("", "");
+            string username, password = "";
+            cout << "Enter your username:";
+            cin >> username;
 
+            if (lib.findUser(username) == true) {
+                while (lib.checkPass(password) != true) {
+                    cout << "Enter password:";
+                    cin >> password;
+                    if (lib.checkPass(password) == true) {
+                        cout << "Login successful\n";
+                        forv = false;
+                    } else {
+                        cout << "Wrong password!\n";
+                    }
+                }
+            } else {
+                cout << "User not found! Please register!\n";
+            }
+            oncel = true;
+
+        }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

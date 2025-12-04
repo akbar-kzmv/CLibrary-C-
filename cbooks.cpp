@@ -142,7 +142,7 @@ public:
 
 int main() {
     int menu;
-    bool oncer = false, oncel = false, forv = true;
+    bool oncer = false, forv = true;
     Library lib;
     cout << "Hello! Welcome to our CLibrary. Choose your next action\n1 - Register\n2 - Login\n";
     cin >> menu;
@@ -162,11 +162,8 @@ int main() {
             usr = User(username, password);
             lib.addUser(usr);
             oncer = true;
+
         } else if (menu == 2) {
-            if (oncel == true) {
-                cout << "1 - Register\n2 - Login" << endl;
-                cin >> menu;
-            }
             User usr("", "");
             string username, password = "";
             cout << "Enter your username:";
@@ -185,8 +182,9 @@ int main() {
                 }
             } else {
                 cout << "User not found! Please register!\n";
+                cout << "1 - Register\n2 - Login" << endl;
+                cin >> menu;
             }
-            oncel = true;
 
         }
     }
